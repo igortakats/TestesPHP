@@ -1,0 +1,6 @@
+var jsFile = '{"registro" : [{"nome" : "Igor", "sobreNome" : "Takats" , "Endereco" : "Rua Daqui, 9"}] }'; 
+
+var txt = '{ "employees" : [' +
+'{ "firstName":"John" , "lastName":"Doe" },' +
+'{ "firstName":"Anna" , "lastName":"Smith" },' +
+'{ "firstName":"Peter" , "lastName":"Jones" } ]}';
