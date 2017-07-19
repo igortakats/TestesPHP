@@ -1,0 +1,21 @@
+ <bean id="fonteDadosArquivo" class="br.com.casadocodigo.FonteDadosArquivo">  
+	<property name="arquivo" value="/caminho/para/Arquivo"/>
+ </bean>
+ 
+ <bean id="fonteDadosRandomico" class="br.com.casadocodigo.FonteDadosRandomico"/>   
+ 
+ <bean id="processador" class="br.com.casadocodigo.Processador"> 
+ 	<property name="fonteDados" ref="fonteDadosArquivo"/> 
+ 	<property name="impressor" ref="impressor"/> 
+ </bean>
+ 
+ <!-- Aplicando heranca --> 
+ 
+ <!--
+ 	a propriedade "parent" "copia" todas as propriedade de processador
+ 	contudo "fonteDados" eh sobescrita referenciando o bean fonteDadosRandomico.
+ -->
+ <bean id="processadorFilho" parent="processador"> 
+ 	<property name="fonteDados" ref="fonteDadosRandomico"/> 
+ </bean> 
+

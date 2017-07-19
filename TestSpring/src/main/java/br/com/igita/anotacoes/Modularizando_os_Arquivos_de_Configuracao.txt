@@ -1,0 +1,23 @@
+Modularizacao de Configurações:
+
+1.	Exemplo Java:
+
+	ApplicationContext context = new ClassPathXMLApplicationContext(
+									{"config1.xml", "config2.xml, config3.xml"})
+
+
+2.	Exemplo do arquivo de configuracao:
+
+	<!-- A definicao do bean fonteDeDadosInstancia fica no arquivo 
+		 spring_factory.xml -->
+		 
+	<import resource="spring-factory.xml" />
+	
+	<bean id="impressor" class="br.com.igita.beans.ImpressorImpl" />
+	
+	<bean id="processador" class="br.com.igita.beans.Processador">
+		<property name="fonteDados" ref="fonteDaadosInstancia" />
+		<property name="impressor" ref="impressor" />
+	</bean>
+
+	

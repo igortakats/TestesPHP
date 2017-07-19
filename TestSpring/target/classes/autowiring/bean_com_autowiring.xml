@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+
+   <!--  <beans  default-autowire="byType"  -->
+ 	<beans 	xmlns="http://www.springframework.org/schema/beans"  
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xmlns:context="http://www.springframework.org/schema/context"  
+			xsi:schemaLocation="http://www.springframework.org/schema/beans   
+			http://www.springframework.org/schema/beans/spring-beans.xsd  
+			http://www.springframework.org/schema/context   
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+            <context:annotation-config/>
+
+            <bean class="br.com.igita.beans.DataSource">  
+                <property name="connectionString" value="jdbc:mysql://localhost/db"/> 
+            </bean> 
+
+            <bean class="br.com.igita.beans.DAOProduto"/> 
+
+            <bean class="br.com.igita.beans.DAOUsuario"/> 
+
+            <bean class="br.com.igita.beans.DAOVenda"/> 
+
+            <bean class="br.com.igita.beans.Processador"/> 
+            
+            <context:component-scan base-package="br.com.igita.autowiring.DAO">
+            	<context:include-filter type="regex" expression="DAO*"/>
+            	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+            </context:component-scan>
+            
+            <context:component-scan base-package=""></context:component-scan>
+
+    </beans>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:b="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+                            
+		<!-- Fonte de dados Simples -->                            
+		<b:bean id="fonteDeDados" class="br.com.igita.beans.FonteDados" lazy-init="true" scope="prototype">
+			<b:property name="arquivo" value="/arquivos/pessoas.csv"/>
+		</b:bean>
+		
+		<!-- Fonte de dados Complexos -->
+		<b:bean id="fonteDeDadosArquivo" class="br.com.igita.beans.FonteDeDadosArquivos" 
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="destroy">
+			<b:property name="arquivos">
+				<b:list>
+					<b:value>/caminho/para/arquivo1.csv</b:value>
+					<b:value>/caminho/para/arquivo2.csv</b:value>
+					<b:value>/caminho/para/arquivo3.csv</b:value>
+				</b:list>
+			</b:property>
+		</b:bean>
+		
+		<!-- recebe uma lista JAVA.IO.FILE em uma java.util.List 
+		<b:bean id="fonteDeDadosArquivoFileIO" class="br.com.igita.beans.FonteDeDadosArquivos">
+			<b:property name="arquivosFileIO">
+				<b:list>
+					<b:bean class="java.io.File">
+						<b:constructor-arg value="/caminho/para/arquivo1"/>
+					</b:bean>
+					<b:bean class="java.io.File">
+						<b:constructor-arg value="/caminho/para/arquivo2"/>
+					</b:bean>
+					<b:bean class="java.io.File">
+						<b:constructor-arg value="/caminho/para/arquivo3"/>
+					</b:bean>
+				</b:list>
+			</b:property>
+		</b:bean>
+		-->
+
+		<!-- recebe uma lista JAVA.IO.FILE em uma java.util.Map 
+		<b:bean id="fonteDeDadosArquivoMap" class="br.com.igita.beans.FonteDeDadosArquivos">
+			<b:property name="arquivosMap">
+				<b:map>
+					<b:entry key="arquivo" >
+						<b:ref bean="arquivo"/>
+					</b:entry>
+					<b:entry key="arquivoString" value="/caminho/para/arquivo"/>
+				</b:map>
+			</b:property>
+		</b:bean>-->
+		
+		<!-- Arquivo de properties (It's just a sample!)
+		
+		<b:bean id="sessionFactory" class="org.springframework.hibernate.LocalSessionFacotryBean">
+			<b:property name="hibernateProperties">
+				<b:props>
+					<b:prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</b:prop>
+					<b:prop key="hibernate.hbm2ddl.auto">update</b:prop>
+				</b:props>
+			</b:property>
+		</b:bean>-->
+
+		
+		<b:bean id="impressor" class="br.com.igita.beans.Impressor" 
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="destroy"/>
+		
+		<!-- Injecao por setter -->
+		<b:bean id="processadorSetter" class="br.com.igita.beans.Processador" 
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="destroy">
+			<b:property name="impressor" ref="impressor"></b:property>
+			<b:property name="fonteDados" ref="fonteDeDados"></b:property>
+		</b:bean>
+		
+		<!-- Injecao por Construtor
+		<b:bean id="processadorConstr" class="br.com.igita.beansProcessador">
+			<b:constructor-arg ref="fonteDeDados" index="0"/>
+			<b:constructor-arg ref="impressor" index="1"/>
+		</b:bean> -->
+		
+		<!-- bean identificado por id e nome -->
+		<b:bean id="impressorName" name="impressorArquivo" class="br.com.igita.beans.Impressor" 
+				lazy-init="true" scope="prototype" init-method="init" />
+		
+		<!-- bean identificado por id e varios nomes -->
+		<b:bean id="impressorNames" name="impressorArq1, impressorArq2" class="br.com.igita.beans.Impressor" 
+				lazy-init="true" scope="prototype" init-method="init"/>
+		
+		<!-- Istanciacao de beans de modo Estatico -->
+		<b:bean id="fonteDadosEstatico" class="br.com.igita.beans.FactoryFonteDados" factory-method="criarEstatico" 
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="destroy">
+			<b:constructor-arg index="0" value="arquivo"/>
+			<!-- arquivo = fonteDados ==> retorna instancia de FonteDados -->
+			<!-- arquivo = fonteDadosRandomico ==> retorna instancia de FonteDadosRandomico -->
+		</b:bean>
+
+		<!-- Istanciacao de beans de modo nao Estatico -->
+		<b:bean id="factory" class="br.com.igita.beans.FactoryFonteDados" 
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="destroy"/>
+		
+		<!-- Construtor com valor -->
+		<b:bean id="fonteDadosInstanciaComValor" class="br.com.igita.beans.FactoryFonteDados" 
+				factory-bean="factory" factory-method="criarFonteDados"
+				lazy-init="true" scope="prototype" init-method="init" destroy-method="desstroy">
+			<b:constructor-arg index="0" value="randomico"/>
+		</b:bean>		
+
+		<!-- Construtor sem valor 
+		<b:bean id="fonteDadosInstanciaSemValor" class="br.com.igita.beans.FactoryFonteDados" 
+				factory-bean="factory" factory-method="criarFonteDadosSemConstrutor">
+			<b:property name="arquivo" value="/caminho/para/arquivo"></b:property>
+		</b:bean>-->
+		
+</b:beans>
+
